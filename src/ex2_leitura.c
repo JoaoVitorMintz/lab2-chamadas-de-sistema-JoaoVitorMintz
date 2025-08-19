@@ -20,20 +20,21 @@ int main() {
     char buffer[BUFFER_SIZE];
     ssize_t bytes_lidos;
     int fd;
+    const char *file = "./dados/teste1.txt";
     
     printf("=== Exercício 2: Leitura de Arquivo ===\n\n");
     
     /*
-     * TODO 1: Abrir o arquivo 'dados/teste1.txt' para leitura
+     * Abrir o arquivo 'dados/teste1.txt' para leitura
      * Use open() com O_RDONLY
      */
-    fd = /* COMPLETE AQUI */;
+    fd = open(file, O_RDONLY);
     
     /*
-     * TODO 2: Verificar se a abertura foi bem-sucedida
+     * Verificar se a abertura foi bem-sucedida
      * Se fd < 0, houve erro
      */
-    if (/* COMPLETE AQUI */) {
+    if (fd == -1) {
         perror("Erro ao abrir arquivo");
         return 1;
     }
@@ -41,35 +42,37 @@ int main() {
     printf("Arquivo aberto! File descriptor: %d\n", fd);
     
     /*
-     * TODO 3: Ler dados do arquivo
+     * Ler dados do arquivo
      * Use read() para ler até (BUFFER_SIZE - 1) bytes
      */
-    bytes_lidos = /* COMPLETE AQUI */;
+    bytes_lidos = read(fd, buffer, sizeof(buffer) - 1);
     
     /*
-     * TODO 4: Verificar se a leitura foi bem-sucedida
+     * Verificar se a leitura foi bem-sucedida
      */
-    if (/* COMPLETE AQUI */) {
+    if (bytes_lidos == -1) {
         perror("Erro na leitura");
         close(fd);
         return 1;
     }
     
     /*
-     * TODO 5: Adicionar terminador nulo
+     * Adicionar terminador nulo
      * Para tratar o buffer como string
      */
-    /* COMPLETE AQUI */;
+    buffer[bytes_lidos] = '\0';
     
     // Exibir resultados
     printf("Bytes lidos: %ld\n", bytes_lidos);
     printf("Conteúdo:\n%s\n", buffer);
     
     /*
-     * TODO 6: Fechar o arquivo
+     * Fechar o arquivo
      * Use close() para liberar o file descriptor
      */
-    if (/* COMPLETE AQUI */) {
+    close(fd);
+
+    if (fd == -1) {
         perror("Erro ao fechar arquivo");
         return 1;
     }
